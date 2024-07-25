@@ -108,21 +108,14 @@ services:
     network_mode: host
     # Restart the updater after reboot
     restart: always
-    cap_add:
-      # Capability to change user ID; needed for using PUID
-      - SETUID
-      # Capability to change group ID; needed for using PGID
-      - SETGID
+    # Run the updater with user/group ID 1000
+    user: "1000:1000"
     # Make the container filesystem read-only
     read_only: true
     security_opt:
       # Another protection to restrict superuser privileges
       - no-new-privileges:true
     environment:
-      # Run the updater with user ID 1000
-      - PUID=1000
-      # Run the updater with group ID 1000
-      - PGID=1000
       # Your Cloudflare API token
       - CF_API_TOKEN=${CLOUDFLARE_API_KEY}
       # Your domains (separated by commas)
